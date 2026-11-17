@@ -26,6 +26,7 @@ A lightweight Bun full-stack HTTP forward proxy and passthrough `CONNECT` tunnel
 
 ```bash
 bun install
+cp .env.example .env # optional: customize ports or DATA_DIR
 bun run start
 ```
 
