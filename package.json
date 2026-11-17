@@ -1,0 +1,17 @@
+{
+  "name": "proxy-tunnel-logger",
+  "version": "1.0.0",
+  "description": "Local forward HTTP proxy & CONNECT tunnel logger with JSONL persistence and real-time Bun web inspector",
+  "type": "module",
+  "scripts": {
+    "dev": "bun --hot src/index.ts",
+    "start": "bun run src/index.ts",
+    "build": "bun build --compile src/index.ts --outfile dist/proxy-tunnel-logger",
+    "typecheck": "bunx tsc --noEmit",
+    "test": "bun test"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "typescript": "^5.8.0"
+  }
+}

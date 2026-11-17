@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Proxy Tunnel Logger</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div id="app" class="app-shell">
+      <header class="topbar">
+        <div class="topbar-left">
+          <div class="brand">
+            <span class="brand-dot" aria-hidden="true"></span>
+            <h1>Proxy Tunnel Logger</h1>
+          </div>
+          <button id="copy-proxy-btn" class="proxy-pill" type="button" title="Copy proxy export command">
+            <span class="proxy-label">PROXY</span>
+            <code id="proxy-addr">127.0.0.1:8080</code>
+            <span class="copy-hint">Copy</span>
+          </button>
+        </div>
+        <div class="topbar-right">
+          <div class="stats-group" id="stats-group">
+            <span class="stat-pill">Total <strong id="stat-total">0</strong></span>
+            <span class="stat-pill">HTTP <strong id="stat-http">0</strong></span>
+            <span class="stat-pill">Tunnel <strong id="stat-tunnel">0</strong></span>
+          </div>
+          <span id="live-indicator" class="live-badge connecting">
+            <span class="live-dot"></span>
+            <span id="live-text">Connecting</span>
+          </span>
+          <a class="btn btn-secondary" href="/api/export" download="logs.jsonl">Export JSONL</a>
+          <button id="theme-toggle" class="btn btn-secondary" type="button" title="Toggle color theme">Theme</button>
+        </div>
+      </header>
+
+      <section class="toolbar" aria-label="Log filters">
+        <div class="search-wrap">
+          <input
+            id="search-input"
+            type="search"
+            placeholder="Filter by URL, host, method, path, error..."
+            autocomplete="off"
+          />
+        </div>
+        <div class="segmented" role="group" aria-label="Entry type">
+          <button class="seg-btn active" data-type="all" type="button">All</button>
+          <button class="seg-btn" data-type="http" type="button">HTTP</button>
+          <button class="seg-btn" data-type="tunnel" type="button">Tunnel</button>
+        </div>
+        <select id="status-filter" aria-label="Status filter">
+          <option value="all">All Status</option>
+          <option value="2xx">2xx Success</option>
+          <option value="3xx">3xx Redirect</option>
+          <option value="4xx">4xx Client Error</option>
+          <option value="5xx">5xx Server Error</option>
+          <option value="error">Errors / Aborted</option>
+        </select>
+        <button id="refresh-btn" class="btn btn-secondary" type="button">Refresh</button>
+      </section>
+
+      <main class="workspace">
+        <section class="pane pane-list" aria-label="Captured traffic list">
+          <div id="list-body" class="list-body">
+            <div class="empty-list">Waiting for proxied traffic...</div>
+          </div>
+          <footer class="pagination-bar">
+            <button id="prev-page" class="btn btn-small" type="button" disabled>Prev</button>
+            <span id="page-info" class="page-info">Page 1 / 1</span>
+            <button id="next-page" class="btn btn-small" type="button" disabled>Next</button>
+          </footer>
+        </section>
+
+        <section class="pane pane-detail" aria-label="Request and tunnel inspector">
+          <div id="detail-root" class="detail-root">
+            <div class="empty-detail">
+              <h2>Select a request or tunnel to inspect</h2>
+              <p>Forward HTTP requests capture full headers and bodies (with streaming SSE passthrough). HTTPS <code>CONNECT</code> tunnels log host, port, duration, and byte counts without MITM.</p>
+              <div class="quickstart">
+                <div class="quickstart-label">Quick test with curl</div>
+                <pre id="quickstart-cmd">curl -x http://127.0.0.1:8080 http://httpbin.org/get</pre>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+    <script type="module" src="./app.ts"></script>
+  </body>
+</html>
